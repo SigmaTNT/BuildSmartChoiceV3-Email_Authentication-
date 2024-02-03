@@ -199,14 +199,14 @@ class _FirstScreenState extends State<FirstScreen> {
     final Map<String, dynamic> responseData = json.decode(response.body);
 
     debugPrint('Response body: ${response.body}');
-    role = responseData['role'];
-    debugPrint(role);
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
 
       final String loggedInUsername = data['username'];
       String result = capitalizeWords(loggedInUsername);
+      role = responseData['role'];
+
       role = role.toUpperCase();
 
       if (role == "USER") {
@@ -228,7 +228,7 @@ class _FirstScreenState extends State<FirstScreen> {
                       )));
         });
       }
-    } else {
+    } else if (response.statusCode == 401) {
       setState(() {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
