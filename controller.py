@@ -19,9 +19,10 @@ class LoginController:
                 return jsonify({"message": "Username and password are required"}), 400
 
             user = self.user_model.get_user_by_username(username)
-            role=user[6]
 
             if user and self.user_auth_model.check_password(password, user[3]):
+                role=user[6]
+
                 return LoginView.success_response(username,role)
             else:
                 return LoginView.failure_response()
